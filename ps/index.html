@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* FLOATING HEARTS */
+.bg-heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  animation:float 6s linear infinite;
+  opacity:0.6;
+}
+@keyframes float{
+  0%{transform:translateY(0);opacity:0}
+  50%{opacity:1}
+  100%{transform:translateY(-120vh);opacity:0}
+}
+
+/* CARD */
+.container{
+  background:#fff;
+  width:380px;
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 25px 45px rgba(0,0,0,.2);
+  z-index:10;
+}
+
+.hidden{display:none;}
+
+h1,h2{color:#ff4d6d;margin-bottom:15px;}
+
+.buttons{position:relative;height:120px;}
+
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  margin:10px;
+}
+
+#yesBtn{background:#ff4d6d;color:white;}
+#noBtn{background:#ddd;position:absolute;}
+
+/* QUIZ */
+#options button{
+  width:100%;
+  margin:8px 0;
+  background:#ffc2d1;
+}
+
+/* GIFTS */
+.gifts{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.gift{
+  background:#ffe5ec;
+  padding:15px;
+  border-radius:18px;
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 10px 20px rgba(0,0,0,0.1);
+  transition:.2s;
+}
+
+/* SHAKE */
+.gift:hover{animation:shake .4s;}
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-4px)}
+  50%{transform:translateX(4px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+
+.locked{opacity:.5}
+
+/* MODALS */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+.modal.active{display:flex;}
+
+.modal-content{
+  background:#fff8dc;
+  width:90%;
+  max-width:420px;
+  padding:20px;
+  border-radius:20px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  top:10px;
+  right:15px;
+  cursor:pointer;
+}
+
+/* LETTER */
+.letter h3{text-align:center;color:#ff4d6d;}
+.letter p{font-size:14px;line-height:1.6;}
+
+/* COLLAGE */
+.collage{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.photo-slot{
+  height:80px;
+  background:#ffd6e0;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:#777;
+  animation:floatImg 3s ease-in-out infinite;
+}
+@keyframes floatImg{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0)}
+}
+
+.photo-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+/* HEART BURST */
+.burst-heart{
+  position:fixed;
+  font-size:22px;
+  animation:burst 1s ease-out forwards;
+}
+@keyframes burst{
+  from{opacity:1;transform:scale(1)}
+  to{opacity:0;transform:translate(var(--x),var(--y)) scale(0)}
+}
+/* GLOWING NAME */
+.glow{
+  color:#ff4d6d;
+  text-shadow:0 0 8px #ff9aa2, 0 0 15px #ffb3c6;
+  animation:glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse{
+  from{ text-shadow:0 0 6px #ff9aa2; }
+  to{ text-shadow:0 0 14px #ff4d6d; }
+}
+
+/* TYPING EFFECT */
+#typedLetter{
+  font-size:14px;
+  line-height:1.6;
+  white-space:pre-line;
+  border-right:2px solid #ff4d6d;
+  padding-right:5px;
+  animation:blink 0.8s infinite;
+}
+
+@keyframes blink{
+  0%,50%{border-color:#ff4d6d;}
+  51%,100%{border-color:transparent;}
+}
+
+/* FINAL LINE */
+.final-line{
+  margin-top:15px;
+  text-align:center;
+  font-size:16px;
+  color:#ff4d6d;
+  font-weight:600;
+  opacity:0;
+  animation:fadeIn 2s forwards;
+  animation-delay:8s;
+}
+
+@keyframes fadeIn{
+  to{opacity:1;}
+}
+.photo-img{
+  width:100%;
+  height:80px;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+  animation:floatImg 3s ease-in-out infinite;
+  transition:transform .3s;
+}
+
+.photo-img:hover{
+  transform:scale(1.1);
+}
+
+@keyframes floatImg{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0)}
+}
+
+
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND HEARTS -->
+<script>
+for(let i=0;i<25;i++){
+  const h=document.createElement("div");
+  h.className="bg-heart";
+  h.innerText="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=3+Math.random()*4+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4c2c9a3e2a.mp3" type="audio/mpeg">
+</audio>
+
+
+<div class="container">
+
+<!-- PAGE 1 -->
+<div id="page1">
+  <h1>💖 Will you be my Valentine? 💖</h1>
+  <div class="buttons">
+    <button id="yesBtn">YES 💕</button>
+    <button id="noBtn">NO 💔</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="hidden">
+  <h2 id="question"></h2>
+  <div id="options"></div>
+</div>
+
+<!-- GIFTS -->
+<div id="giftsPage" class="hidden">
+  <h1>💖 You are ALWAYS correct 💖</h1>
+  <p>So here are some gifts for you… 🎁</p>
+
+  <div class="gifts">
+    <div class="gift" id="gift1">🎁 Gift 1</div>
+    <div class="gift locked" id="gift2">🎁 Gift 2 🔒</div>
+  </div>
+</div>
+
+</div>
+
+<!-- LETTER MODAL -->
+<div id="letterModal" class="modal">
+  <div class="modal-content">
+    <div class="close" onclick="closeAll()">❌</div>
+   <div class="letter">
+  <h3>Dear Prachi ❤️</h3>
+  <p>
+    I don’t know how to write perfect letters,  
+    but I know one thing for sure —  
+    my heart learned your name before my mind did.
+    <br><br>
+    You are not just someone I love,  
+    you are someone my soul feels calm with.  
+    In your smile, I find comfort.  
+    In your anger, I find care.  
+    In your presence, I find home.
+    <br><br>
+    I may not be perfect,  
+    but every version of me chooses you —  
+    on easy days, on difficult days,  
+    and on days when words fail.
+    <br><br>
+    If I ever get lost in life,  
+    I hope I get lost holding your hand.  
+    If I ever grow old,  
+    I hope it’s with your laughter around me.
+    <br><br>
+    Wherever life sends us,  
+    my heart has already decided its place —  
+    it’s with you.
+    <br><br>
+    Yours, in every lifetime 💕
+  </p>
+</div>
+
+  </div>
+</div>
+
+<!-- PHOTO MODAL -->
+<div id="photoModal" class="modal">
+  <div class="modal-content">
+    <div class="close" onclick="closeAll()">❌</div>
+    <h3 style="text-align:center;color:#ff4d6d;">Our Memories 💕</h3>
+
+  <div class="collage">
+  <img src="images/photo1.jpeg" class="photo-img">
+  <img src="images/photo2.jpeg" class="photo-img">
+  <img src="images/photo3.jpeg" class="photo-img">
+  <img src="images/photo4.jpeg" class="photo-img">
+  <img src="images/photo5.jpeg" class="photo-img">
+  <img src="images/photo6.jpeg" class="photo-img">
+</div>
+
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const page1 = document.getElementById("page1");
+const quiz = document.getElementById("quiz");
+const giftsPage = document.getElementById("giftsPage");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const bgMusic = document.getElementById("bgMusic");
+const gift1 = document.getElementById("gift1");
+const gift2 = document.getElementById("gift2");
+
+let gift1Opened=false;
+
+/* NO BUTTON */
+function moveFast(){
+  noBtn.style.transform=`translate(${Math.random()*300-150}px,${Math.random()*120-60}px)`;
+}
+noBtn.addEventListener("mouseenter",moveFast);
+
+/* YES */
+yesBtn.addEventListener("click",()=>{
+  bgMusic.play().catch(()=>{});
+  page1.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  loadQuestion();
+});
+
+/* QUIZ */
+const questions=[
+  {q:"👑 Who is the boss in relationship?",options:["Prachi 😌","Prachi ❤️","Obviously Prachi 😍","Always Prachi 💯"]},
+  {q:"😤 Who fights a lot?",options:["Prachi 🥺","Cute angry Prachi 😆","Still Prachi ❤️","My favorite fighter 😘"]},
+  {q:"💍 Where should I send rest of my life?",options:["Your heart ❤️","Your arms 🤍","With you forever 💞","Wherever Prachi is 🥰"]}
+];
+let index=0;
+
+function loadQuestion(){
+  questionEl.innerText=questions[index].q;
+  optionsEl.innerHTML="";
+  questions[index].options.forEach(o=>{
+    const b=document.createElement("button");
+    b.innerText=o;
+    b.onclick=nextQuestion;
+    optionsEl.appendChild(b);
+  });
+}
+
+function nextQuestion(){
+  index++;
+  if(index<questions.length) loadQuestion();
+  else{
+    quiz.classList.add("hidden");
+    giftsPage.classList.remove("hidden");
+  }
+}
+
+/* HEART BURST */
+function heartBurst(){
+  for(let i=0;i<12;i++){
+    const h=document.createElement("div");
+    h.className="burst-heart";
+    h.innerText="💖";
+    h.style.left="50%";
+    h.style.top="50%";
+    h.style.setProperty("--x",(Math.random()*200-100)+"px");
+    h.style.setProperty("--y",(Math.random()*200-100)+"px");
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+  }
+}
+
+/* GIFTS */
+gift1.onclick=()=>{
+  gift1Opened=true;
+  gift2.classList.remove("locked");
+  gift2.innerText="🎁 Gift 2";
+  document.getElementById("letterModal").classList.add("active");
+  heartBurst();
+};
+
+gift2.onclick=()=>{
+  if(!gift1Opened){
+    alert("Open Gift 1 first 💖");
+    return;
+  }
+  document.getElementById("photoModal").classList.add("active");
+};
+
+function closeAll(){
+  document.getElementById("letterModal").classList.remove("active");
+  document.getElementById("photoModal").classList.remove("active");
+}
+</script>
+
+</body>
+</html>
